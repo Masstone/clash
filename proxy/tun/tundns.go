@@ -6,15 +6,15 @@ import (
 
 	"github.com/Dreamacro/clash/dns"
 	"github.com/Dreamacro/clash/log"
-	"github.com/google/netstack/tcpip"
-	"github.com/google/netstack/tcpip/adapters/gonet"
-	"github.com/google/netstack/tcpip/buffer"
-	"github.com/google/netstack/tcpip/header"
-	"github.com/google/netstack/tcpip/network/ipv4"
-	"github.com/google/netstack/tcpip/network/ipv6"
-	"github.com/google/netstack/tcpip/stack"
-	"github.com/google/netstack/tcpip/transport/udp"
 	D "github.com/miekg/dns"
+	"gvisor.dev/gvisor/pkg/tcpip"
+	"gvisor.dev/gvisor/pkg/tcpip/adapters/gonet"
+	"gvisor.dev/gvisor/pkg/tcpip/buffer"
+	"gvisor.dev/gvisor/pkg/tcpip/header"
+	"gvisor.dev/gvisor/pkg/tcpip/network/ipv4"
+	"gvisor.dev/gvisor/pkg/tcpip/network/ipv6"
+	"gvisor.dev/gvisor/pkg/tcpip/stack"
+	"gvisor.dev/gvisor/pkg/tcpip/transport/udp"
 )
 
 const (
@@ -177,9 +177,9 @@ func CreateDNSServer(s *stack.Stack, resolver *dns.Resolver, ip net.IP, port int
 	// TCP DNS
 	var tcpListener net.Listener
 	if v4 {
-		tcpListener, err = gonet.NewListener(s, address, ipv4.ProtocolNumber)
+		tcpListener, err = gonet.ListenTCP(s, address, ipv4.ProtocolNumber)
 	} else {
-		tcpListener, err = gonet.NewListener(s, address, ipv6.ProtocolNumber)
+		tcpListener, err = gonet.ListenTCP(s, address, ipv6.ProtocolNumber)
 	}
 	if err != nil {
 		return nil, fmt.Errorf("Can not listen on tun: %v", err)
