@@ -1,0 +1,18 @@
+name: Sync Fork
+
+on:
+  schedule:
+  - cron: '0 */12 * * *'
+
+jobs:
+  sync:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: TG908/fork-sync@v1.1.5
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        owner: comzyh
+        base: dev_ctun
+        head: add-water
